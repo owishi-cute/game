@@ -21,13 +21,15 @@
 }
 
 .enemy{
-  position: relative;
-  top: 200px;
+  position: absolute;
+  top: 250px;
   left: 380px;
-  min-height: 50px;
   width: 20px;
-  height: 100%;
+  height: 50px;
   border: 1px solid grey;
+  background-color: "white";
+  z-index: 2;
+ 
 }
 .attackBtnDiv{
   width: 400px;
@@ -38,6 +40,17 @@
 
 .jumpAnimate{
   animation: jump 1s linear;
+}
+
+.jumpAnimateEnemy{
+ animation: enemyJump 1s linear;
+}
+
+@keyframes enemyJump{
+  0%{top: 250px;}
+  30%{top: 200px;}
+  50%{top: 190px;}
+  100%{top: 250px;}
 }
 
 @keyframes jump{
@@ -53,7 +66,7 @@
   height: 10px;
   background-color: black;
   top: 270px;
-  animation: bulletShoot 2s linear;
+  animation: bulletShoot 1s linear;
   z-index: -1;
 }
 
