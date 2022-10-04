@@ -1,7 +1,7 @@
 let character = document.querySelector(".character");
 let enemy = document.querySelector(".enemy");
 let checkHit, canRegen = false;
-let enemyHitTime;
+let enemyHitTime, newBullet;
 function dodge(){
   let dodgeBtn = document.querySelector(".dodgeBtn");
   if (character.classList != "jumpAnimate"){
@@ -23,15 +23,28 @@ function attack(){
   atkBtn.disabled = true;
   setTimeout(()=>{
     atkBtn.disabled = false;
-  },500)
+  },1000)
   }
 }
-
+function coreGaming(gaming){
+ console.log(gaming)
+}
 function bulletConstructorPlayer(pos, type, dmg){
-  let newBullet = document.createElement('div');
-  newBullet.classList.add(type);
-  newBullet.classList.add(dmg);
+ let bulletInfo = new Bullet(pos, type, dmg);
+ if(bulletInfo.type == "playerBullet"){
+  newBullet = document.createElement('div');
+  newBullet.classList.add(bulletInfo.type);
+  newBullet.classList.add(bulletInfo.dmg);
+  newBullet.classList.add("bullet")
   pos.appendChild(newBullet);
+  detectBulletHit(bulletInfo.
+  pos, bulletInfo.type, bulletInfo.dmg)
+ }
+}
+
+
+
+function detectBulletHit(pos, type, dmg){
   setInterval(()=>{
     let detectHit = parseInt(window.getComputedStyle(newBullet).getPropertyValue("right"));
     let detectHitBullet = parseInt(window.getComputedStyle(newBullet).getPropertyValue("left"))
@@ -41,8 +54,7 @@ function bulletConstructorPlayer(pos, type, dmg){
     if(detectHit < 20){
       pos.removeChild(newBullet);
     }
-    if((detectHitBullet) >= (detectEnemyHitLeft - enemy.style.width) && detectEnemyHitTop == 200){
-      //clearTimeout(enemyHitTime);
+    if((detectHitBullet) >= (detectEnemyHitLeft - enemy.style.width) && detectEnemyHitTop == 250){
       enemy.id = getEnemyHP;
       pos.removeChild(newBullet)
       enemy.textContent = enemy.id;
@@ -50,20 +62,20 @@ function bulletConstructorPlayer(pos, type, dmg){
       
       document.querySelector(".enemy").style.backgroundColor = "red";
       setTimeout(()=>{
-       document.querySelector(".enemy").style.backgroundColor = "transparent";
+       document.querySelector(".enemy").style.backgroundColor = "white";
       },10)
     }
     if(enemy.id<=0){
      enemy.remove()
     }
   },10)
-}
+  }
+
 
 function enemyHit(){
- console.log(canRegen);
  if(enemy.id != checkHit){
   canRegen = false;
-  enemyHitTime = setTimeout(()=>{
+  setTimeout(()=>{
    canRegen = true;
    checkHit = enemy.id
   },5000)
@@ -84,4 +96,5 @@ function enemyRegen(){
    enemyHit()
   }, 1000)
 }
+
  enemyRegen()
